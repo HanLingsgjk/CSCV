@@ -21,7 +21,10 @@ https://github.com/HanLingsgjk/CSCV/assets/102562963/34f7a57f-8a07-4a33-863b-acb
 
 Dog:
 
-https://github.com/HanLingsgjk/CSCV/assets/102562963/43621943-49e8-4e12-ac31-8598fb2300d4
+
+https://github.com/HanLingsgjk/CSCV/assets/102562963/5f206891-1436-43e5-b5e1-754604eeee70
+
+
 
 Cat:
 
