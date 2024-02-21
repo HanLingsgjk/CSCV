@@ -15,7 +15,7 @@ pip install opencv-python
 ...
 ```
 ## Demo
-![image](https://github.com/HanLingsgjk/CSCV/000050.gif?raw=true)
+![img](https://github.com/HanLingsgjk/CSCV/000050.gif?raw=true)
 ## Dataset Configuration
 To evaluate/train CSCV, you will need to download the required datasets. 
 * [FlyingThings3D](https://lmb.informatik.uni-freiburg.de/resources/datasets/SceneFlowDatasets.en.html)
