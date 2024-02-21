@@ -1,5 +1,5 @@
-# CSCV
-code for CSCV+RAFT(ScaleRAFT)
+# ScaleRAFT
+code for ScaleRAFT
 ## Requirements
 The code has been tested with PyTorch 1.11.0 and Cuda 11.3.
 ```Shell
