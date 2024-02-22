@@ -1,6 +1,7 @@
 # ScaleRAFT
 code for ScaleRAFT: Cross-Scale Recurrent All-Pairs Field Transforms for 3D Motion Estimation.
-A Robust Method for Extracting 3D Motion from Videos
+
+(A Robust Method for Extracting 3D Motion from Videos)
 
 
 ## Requirements
