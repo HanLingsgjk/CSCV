@@ -1,5 +1,10 @@
 # ScaleRAFT
-code for ScaleRAFT
+code for ScaleRAFT: Cross-Scale Recurrent All-Pairs Field Transforms for 3D Motion Estimation.
+A Robust Method for Extracting 3D Motion from Videos
+
+[Ling 等 - 2021 - ScaleRAFT Cross-Scale Recurrent All-Pairs Field T.pdf](https://github.com/HanLingsgjk/CSCV/files/14369985/Ling.-.2021.-.ScaleRAFT.Cross-Scale.Recurrent.All-Pairs.Field.T.pdf)
+
+
 ## Requirements
 The code has been tested with PyTorch 1.11.0 and Cuda 11.3.
 ```Shell
