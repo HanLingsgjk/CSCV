@@ -19,20 +19,44 @@ pip install opencv-python
 ...
 ```
 ## Demo
-KunKun:
 
-https://github.com/HanLingsgjk/CSCV/assets/102562963/34f7a57f-8a07-4a33-863b-acba5381f11e
+
+soapbox:
+
+https://github.com/HanLingsgjk/CSCV/assets/102562963/14c603dd-6690-41e5-9259-025240395da8
+
+parkour:
+
+https://github.com/HanLingsgjk/CSCV/assets/102562963/b722d727-d185-49e3-92bf-c27b02182ff5
+
+motorbike:
+
+https://github.com/HanLingsgjk/CSCV/assets/102562963/ea7be7b6-963d-4f4f-923b-7b1c56a0b0cb
+
+
+motocross-jump:
+
+https://github.com/HanLingsgjk/CSCV/assets/102562963/6d2f4db7-e6a6-4528-8133-2b4f64420e8e
+
+
+lady-running:
+
+https://github.com/HanLingsgjk/CSCV/assets/102562963/276dbfe7-1ad7-400c-9507-80da94130689
+
+car-shadow:
+
+https://github.com/HanLingsgjk/CSCV/assets/102562963/c9ab1122-1d0b-4cd8-80bf-4ef9a354ab35
+
+breakdance-flare:
+
+
+https://github.com/HanLingsgjk/CSCV/assets/102562963/44f7bd1f-6286-4f2b-b117-21272fbad255
+
 
 Dog:
 
-
 https://github.com/HanLingsgjk/CSCV/assets/102562963/5f206891-1436-43e5-b5e1-754604eeee70
 
-
-
-Cat:
-
-https://github.com/HanLingsgjk/CSCV/assets/102562963/1513cf88-e22c-46b4-a756-4faaa2e438a7
 
 
 
