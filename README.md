@@ -14,12 +14,13 @@ pip install torch==1.11.0+cu113 torchvision==0.12.0+cu113 torchaudio==0.11.0 --e
 
 Also need to install via pip
 ```Shell
-pip install matplotlib
+pip install matplotlib==3.5
 pip install opencv-python
 pip install tqdm
 pip install pypng
 pip install scipy
 pip install einops
+pip install tensorboard
 ```
 ## Demo
 
@@ -69,7 +70,7 @@ To evaluate/train CSCV, you will need to download the required datasets.
 * [FlyingThings3D](https://lmb.informatik.uni-freiburg.de/resources/datasets/SceneFlowDatasets.en.html)
 * [KITTI](http://www.cvlibs.net/datasets/kitti/eval_scene_flow.php?benchmark=flow)
 
-We recommend manually specifying the path in `dataset_exp_orin.py`, like `def  __init__(self, aug_params=None, split='kitti_test', root='/new_data/datasets/KITTI/training',get_depth=0):` , because the automatic one often makes mistakes
+We recommend manually specifying the path in `dataset_exp_orin.py` , like in line 477 `def  __init__(self, aug_params=None, split='kitti_test', root='/new_data/datasets/KITTI/',get_depth=0):` , '/new_data/datasets/KITTI/' is where you put the KITTI dataset.
 
 You can create symbolic links to wherever the datasets were downloaded in the `datasets` folder
 ```Shell
