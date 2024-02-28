@@ -92,5 +92,5 @@ python train.py --name raft-cscv --stage kitti --validation kitti --restore_ckpt
 ## Test on KITTI
 Reproduce the results of Table 1 in the paper
 ```Shell
-python dc_flow_eval.py --model=../CSCV/checkpotins/raft-kitti_343_160_44.75.pth --mixed_precision --start=0
+python dc_flow_eval.py --model=../CSCV/checkpotins/raft-kitti_343_160_42.08.pth --mixed_precision --start=0
 ```
