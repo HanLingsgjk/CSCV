@@ -25,7 +25,7 @@ pip install tensorboard
 ## Demo
 First, download the weights (Demo.pth) from https://drive.google.com/drive/folders/129lbJWkcMwxispcRVXOvUGF12GuHbhX3?usp=drive_link and place it in the checkpoints path.
 
-You need to specify the image path and output path in the demo file (line 92,93,94)
+You need to specify the image path and output path in the Demo.py file (line 92,93,94)
 ```Shell
         path1 = '/home/lh/CSCV/000019_10.png'
         path2 = '/home/lh/CSCV/000019_11.png'
