@@ -23,7 +23,7 @@ pip install einops
 pip install tensorboard
 ```
 ## Demo
-
+First, download the weights (Demo.pth) from https://drive.google.com/drive/folders/129lbJWkcMwxispcRVXOvUGF12GuHbhX3?usp=drive_link
 
 soapbox:
 
