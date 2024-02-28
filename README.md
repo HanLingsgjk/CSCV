@@ -16,7 +16,10 @@ Also need to install via pip
 ```Shell
 pip install matplotlib
 pip install opencv-python
-...
+pip install tqdm
+pip install pypng
+pip install scipy
+pip install einops
 ```
 ## Demo
 
