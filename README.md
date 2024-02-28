@@ -23,7 +23,17 @@ pip install einops
 pip install tensorboard
 ```
 ## Demo
-First, download the weights (Demo.pth) from https://drive.google.com/drive/folders/129lbJWkcMwxispcRVXOvUGF12GuHbhX3?usp=drive_link
+First, download the weights (Demo.pth) from https://drive.google.com/drive/folders/129lbJWkcMwxispcRVXOvUGF12GuHbhX3?usp=drive_link and place it in the checkpoints path.
+
+You need to specify the image path and output path in the demo file (line 92,93,94)
+```Shell
+        path1 = '/home/lh/CSCV/000019_10.png'
+        path2 = '/home/lh/CSCV/000019_11.png'
+        outpath = '/home/lh/CSCV/output'
+```
+```Shell
+CUDA_VISIBLE_DEVICES=0 python Demo.py --model=/home/lh/CSCV/checkpoints/Demo.pth --mixed_precision --start=0
+```
 
 soapbox:
 
@@ -90,11 +100,11 @@ Download and place in the root directory
 
 ## Train on KITTI
 ```Shell
-python train.py --name raft-cscv --stage kitti --validation kitti --restore_ckpt ../CSCV/checkpotins/cscv_kittitest_6.12.pth --gpus 0 --num_steps 60000 --batch_size 2 --lr 0.000125 --image_size 320 960 --wdecay 0.0001 --gamma=0.85
+CUDA_VISIBLE_DEVICES=0 python train.py --name raft-cscv --stage kitti --validation kitti --restore_ckpt ../CSCV/checkpotins/cscv_kittitest_6.12.pth --gpus 0 --num_steps 60000 --batch_size 2 --lr 0.000125 --image_size 320 960 --wdecay 0.0001 --gamma=0.85
 ```
 
 ## Test on KITTI
 Reproduce the results of Table 1 in the paper
 ```Shell
-python dc_flow_eval.py --model=../CSCV/checkpotins/cscv_kitti_42.08.pth --mixed_precision --start=0
+CUDA_VISIBLE_DEVICES=0 python dc_flow_eval.py --model=../CSCV/checkpotins/cscv_kitti_42.08.pth --mixed_precision --start=0
 ```
