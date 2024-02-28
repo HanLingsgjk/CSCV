@@ -86,11 +86,11 @@ Download and place in the root directory
 
 ## Train on KITTI
 ```Shell
-python train.py --name raft-cscv --stage kitti --validation kitti --restore_ckpt ../CSCV/checkpotins/raft-kitti_343_6.08.pth --gpus 0 --num_steps 60000 --batch_size 2 --lr 0.000125 --image_size 320 960 --wdecay 0.0001 --gamma=0.85
+python train.py --name raft-cscv --stage kitti --validation kitti --restore_ckpt ../CSCV/checkpotins/cscv_kittitest_6.12.pth --gpus 0 --num_steps 60000 --batch_size 2 --lr 0.000125 --image_size 320 960 --wdecay 0.0001 --gamma=0.85
 ```
 
 ## Test on KITTI
 Reproduce the results of Table 1 in the paper
 ```Shell
-python dc_flow_eval.py --model=../CSCV/checkpotins/raft-kitti_343_160_42.08.pth --mixed_precision --start=0
+python dc_flow_eval.py --model=../CSCV/checkpotins/cscv_kitti_42.08.pth --mixed_precision --start=0
 ```
