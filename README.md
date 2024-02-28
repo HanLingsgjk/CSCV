@@ -27,8 +27,8 @@ First, download the weights (Demo.pth) from https://drive.google.com/drive/folde
 
 You need to specify the image path and output path in the Demo.py file (line 92,93,94)
 ```Shell
-        path1 = '/home/lh/CSCV/000019_10.png'
-        path2 = '/home/lh/CSCV/000019_11.png'
+        path1 = '/home/lh/CSCV/00026.jpg'
+        path2 = '/home/lh/CSCV/00027.jpg'
         outpath = '/home/lh/CSCV/output'
 ```
 ```Shell
