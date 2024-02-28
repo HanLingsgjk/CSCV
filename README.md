@@ -95,7 +95,7 @@ You can create symbolic links to wherever the datasets were downloaded in the `d
         ├── optical_flow
 ```
 ## Pretrained weights for KITTI
-Download and place in the root directory
+Download and place in the checkpoints directory
 * https://drive.google.com/drive/folders/129lbJWkcMwxispcRVXOvUGF12GuHbhX3?usp=drive_link
 
 ## Train on KITTI
