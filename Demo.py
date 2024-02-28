@@ -89,7 +89,7 @@ if __name__ == '__main__':
     model.eval()
 
     with torch.no_grad():
-        path1 = '/home/lh/CSCV/000019_10.png'
-        path2 = '/home/lh/CSCV/000019_11.png'
+        path1 = '/home/lh/CSCV/00026.jpg'
+        path2 = '/home/lh/CSCV/00027.jpg'
         outpath = '/home/lh/CSCV/output'
         Davis_demo(model,path1,path2,outpath)
