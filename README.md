@@ -3,6 +3,8 @@ code for ScaleRAFT: Cross-Scale Recurrent All-Pairs Field Transforms for 3D Moti
 
 (A Robust Method for Extracting 3D Motion from Videos)
 
+At present, this article is still under review, and there is a preliminary version of this work https://dl.acm.org/doi/abs/10.1145/3503161.3547979
+PS: Can be found by name on Google Scholar, if ACM is not convenient to read
 
 ## Requirements
 The code has been tested with PyTorch 1.11.0 and Cuda 11.3.
