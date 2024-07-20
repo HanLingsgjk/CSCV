@@ -1,3 +1,7 @@
+
+# ResScale
+We have recently improved a version called ResScale, which has better generalization and more advanced inference framework. It will be announced before September 15th. Stay tuned!
+
 # ScaleRAFT
 code for ScaleRAFT: Cross-Scale Recurrent All-Pairs Field Transforms for 3D Motion Estimation.
 
