@@ -112,7 +112,7 @@ You can create symbolic links to wherever the datasets were downloaded in the `d
 ## Pretrained weights for KITTI
 Download and place in the checkpoints directory  ../CSCV/checkpotins/
 * https://drive.google.com/drive/folders/129lbJWkcMwxispcRVXOvUGF12GuHbhX3?usp=drive_link
-* 
+
 ## Train ScaleFlow++ on KITTI
 ```Shell
 CUDA_VISIBLE_DEVICES=0,1 python train_scaleflowpp.py --name ScaleFlowpp --stage kitti --validation kitti --gpus 0 1 --num_steps 60000 --batch_size 6 --lr 0.000125 --image_size 320 896 --wdecay 0.0001 --gamma=0.85
@@ -136,6 +136,8 @@ in line 560,563,564
 
 `cv2.imwrite('%s/%s' % ('/home/lh/CSCV_occ/submit_pre909/disp_1', frame_id), disp2)`
 
+
+You also need to download the disp_ganet_testing folder from https://drive.google.com/drive/folders/129lbJWkcMwxispcRVXOvUGF12GuHbhX3?usp=drive_link and place it in the testing path (like:/home/lh/all_datasets/kitti/testing)
 
 ```Shell
 CUDA_VISIBLE_DEVICES=0 python dc_flow_eval.py --model=../CSCV/checkpotins/ResScale_kittift200.pth --modelused='scaleflowpp' --ifsubmit=True
