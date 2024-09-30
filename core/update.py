@@ -777,3 +777,86 @@ class DCUpdateBlockpy(nn.Module):
         # scale mask to balence gradients
         mask = .25 * self.mask(net.float())
         return mask ,exp_flow[0]
+from core.layer import ConvNeXtV2tiny
+from core.utils.submodule import  Tiny_Unetlikev7
+class expHeadv2(nn.Module):
+    def __init__(self, input_dim=128, hidden_dim=256):
+        super(expHeadv2, self).__init__()
+        self.conv1 = nn.Conv2d(input_dim, hidden_dim, 3, padding=1)
+        self.conv2 = nn.Conv2d(hidden_dim, 1, 3, padding=1)
+        self.relu = nn.ReLU(inplace=True)
+    def forward(self, x):
+        return self.conv2(self.relu(self.conv1(x)))
+
+class BasicMotioneEncoderNextv2(nn.Module):
+    def __init__(self, args):
+        super(BasicMotioneEncoderNextv2, self).__init__()
+        cor_planes = 343#343#411
+        self.convc1 = nn.Conv2d(cor_planes, 256, 1, padding=0)
+        self.convc2 = nn.Conv2d(256, 192, 3, padding=1)
+        self.convf1 = nn.Conv2d(2, 128, 7, padding=3)
+        self.convf2 = nn.Conv2d(128, 64, 3, padding=1)
+        self.conve1 = nn.Conv2d(1, 128, 7, padding=3)
+        self.conve2 = nn.Conv2d(128, 64, 3, padding=1)
+        self.conv = ConvNeXtV2tiny(64+192+64, 128-3, kszie=7, bl=2)
+    def forward(self, flow, corr, exp):
+        cor = F.relu(self.convc1(corr))
+        cor = F.relu(self.convc2(cor))
+        flo = F.relu(self.convf1(flow))
+        flo = F.relu(self.convf2(flo))
+        expo = F.relu(self.conve1(exp))
+        expo = F.relu(self.conve2(expo))
+
+        cor_flo = torch.cat([cor, flo, expo], dim=1)
+        out = F.relu(self.conv(cor_flo))
+        return torch.cat([out, flow, exp], dim=1)
+
+class ResFlowUpdateBlockUnetL(nn.Module):
+    def __init__(self, args, hidden_dim=96, input_dim=128):
+        super(ResFlowUpdateBlockUnetL, self).__init__()
+        self.args = args
+        #self.encoder = BasicMotioneEncoder(args)
+        self.encoder = BasicMotioneEncoderNextv2(args)
+        self.TinyU = Tiny_Unetlikev7(128 +2*hidden_dim, hidden_dim, mid_channle=hidden_dim)
+        #self.TinyU=Tiny_Unetlikev9(hidden_dim=hidden_dim, input_dim=128 + hidden_dim)
+        self.flow_head = FlowHead(hidden_dim, hidden_dim=256)
+        self.exp_head = expHeadv2(hidden_dim, hidden_dim=256)
+
+        self.mask = nn.Sequential(
+            nn.Conv2d(hidden_dim, 256, 3, padding=1),
+            nn.ReLU(inplace=True),
+            nn.Conv2d(256, 64 * 9, 1, padding=0))
+        self.masks = nn.Sequential(
+            nn.Conv2d(hidden_dim, 256, 3, padding=1),
+            nn.ReLU(inplace=True),
+            nn.Conv2d(256, 64 * 9, 1, padding=0))
+    def forward(self, net, inp, corr, flow, exp,cx16=None):
+        motion_features = self.encoder(flow, corr, exp)  # 128
+        inp = torch.cat([inp, motion_features], dim=1)  # 128+128
+        #net = self.TinyU(net, inp)
+        net = self.TinyU(torch.cat([net, inp], dim=1))
+        delta_flow = self.flow_head(net)
+        exp_flow = self.exp_head(net)
+        # scale mask to balence gradients
+        mask = .25 * self.mask(net)
+        masks = .25 * self.masks(net)
+        return net, mask,masks, delta_flow, exp_flow
+
+class DCFlowUpdateBlock(nn.Module):
+    def __init__(self, args,hidim):
+        super(DCFlowUpdateBlock, self).__init__()
+        self.args = args
+        #self.encoder = BasicMotioneEncoder(args)
+        self.encoder = BasicMotioneEncoderNextv2(args)
+        self.maske = nn.Sequential(
+            nn.Conv2d(hidim, 256, 3, padding=1),
+            nn.ReLU(inplace=True),
+            nn.Conv2d(256, 64*9, 1, padding=0))
+        self.exp_head = Tiny_Unetlikev7(128+2*hidim, 1,mid_channle=192)
+    def forward(self, net, inp, corr, flow,exp,cx16):
+        motion_features = self.encoder(flow, corr, exp)
+        inp = torch.cat([inp, motion_features,net], dim=1)
+        exp_update = self.exp_head(inp)
+        # scale mask to balence gradients
+        maske = .25 * self.maske(net.float())
+        return maske ,exp_update

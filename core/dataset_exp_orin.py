@@ -240,22 +240,13 @@ class FlowDataset(data.Dataset):
                 img1, img2, flow, dc_change = self.augmentor(img1, img2, flow,dc_change)
 
 
-        for i in range(int(self.k)*1):
+        for i in range(int(self.k)*2):
             imgb1,imgb2,ansb,flag = self.bezier.get_mask(img1,self.last_image)
             kit1 = (imgb1 != 0).sum()
             kit2 = (imgb2 != 0).sum()
-            flagA = 0
-            flagB = 0
-            flagC = 0
             flag2 = abs(kit2-kit1)/(kit2+kit1+1)
-            if kit2>kit1 and flag2>0.7:
-                flagA = 1
-            if kit2<kit1 and flag2>0.8:
-                flagB = 1
-            if flag2<0.3:
-                flagC = 1
+            if flag>1 and flag2<0.5:
 
-            if flagC or flagA:
                 img1[imgb1 != 0] = imgb1[imgb1 != 0]
                 img2[imgb2 != 0] = imgb2[imgb2 != 0]
                 flow[imgb1[:, :, 0] != 0, :] = ansb[imgb1[:, :, 0] != 0, :2]
@@ -264,13 +255,6 @@ class FlowDataset(data.Dataset):
                 dc_change[imgb1[:,:,0] != 0, 0:1] = ansb[imgb1[:,:,0] != 0, 2:]
                 li = ansb[:,:,2]!=0
                 dc_change[li,1]=1
-            if flagB:
-                img1[imgb1 != 0] = imgb1[imgb1 != 0]
-                img2[imgb2 != 0] = imgb2[imgb2 != 0]
-                if self.sparse:
-                    valid[imgb1[:, :, 0] != 0] = 0
-                li = ansb[:, :, 2] != 0
-                dc_change[li, 1] = 0
 
         self.last_image = img2
 
