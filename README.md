@@ -1,13 +1,8 @@
 
-# ResScale
-We have recently improved a version called ResScale, which has better generalization and more advanced inference framework. It will be announced before September 15th. Stay tuned!
+# ScaleFlow++
+Code for: ScaleFlow++: Robust and Accurate Estimation of 3D Motion from Monocular Camera  https://arxiv.org/abs/2409.12202
 
-# ScaleFlow
-code for ScaleRAFT: Cross-Scale Recurrent All-Pairs Field Transforms for 3D Motion Estimation.
-
-(A Robust Method for Extracting 3D Motion from Videos)
-
-At present, this article is still under review, and there is a preliminary version of this work https://dl.acm.org/doi/abs/10.1145/3503161.3547979
+There is a preliminary version of this work https://dl.acm.org/doi/abs/10.1145/3503161.3547979
 
 PS: Can be found by name on Google Scholar, if ACM is not convenient to read
 
@@ -29,7 +24,7 @@ pip install scipy
 pip install einops
 pip install tensorboard
 ```
-## Demo
+## Demo for scaleflow
 First, download the weights (Demo.pth) from https://drive.google.com/drive/folders/129lbJWkcMwxispcRVXOvUGF12GuHbhX3?usp=drive_link and place it in the checkpoints path.
 
 You need to specify the image path and output path in the Demo.py file (line 92,93,94)
@@ -41,6 +36,19 @@ You need to specify the image path and output path in the Demo.py file (line 92,
 ```Shell
 CUDA_VISIBLE_DEVICES=0 python Demo.py --model=/home/lh/CSCV/checkpoints/Demo.pth --mixed_precision --start=0
 ```
+## Demo for ScaleFlow++
+First, download the weights (Demo_Scaleflowpp.pth) from https://drive.google.com/drive/folders/129lbJWkcMwxispcRVXOvUGF12GuHbhX3?usp=drive_link and place it in the checkpoints path.
+
+You need to specify the image path and output path in the Demo.py file (line 92,93,94)
+```Shell
+        path1 = '/home/lh/CSCV/00026.jpg'
+        path2 = '/home/lh/CSCV/00027.jpg'
+        outpath = '/home/lh/CSCV/output'
+```
+```Shell
+CUDA_VISIBLE_DEVICES=0 python Demo_ScaleFlowpp.py --model=/home/lh/CSCV/checkpoints/Demo_Scaleflowpp.pth --mixed_precision --start=0
+```
+
 
 soapbox:
 
