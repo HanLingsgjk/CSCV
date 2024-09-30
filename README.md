@@ -24,18 +24,8 @@ pip install scipy
 pip install einops
 pip install tensorboard
 ```
-## Demo for scaleflow
-First, download the weights (Demo.pth) from https://drive.google.com/drive/folders/129lbJWkcMwxispcRVXOvUGF12GuHbhX3?usp=drive_link and place it in the checkpoints path.
 
-You need to specify the image path and output path in the Demo.py file (line 92,93,94)
-```Shell
-        path1 = '/home/lh/CSCV/00026.jpg'
-        path2 = '/home/lh/CSCV/00027.jpg'
-        outpath = '/home/lh/CSCV/output'
-```
-```Shell
-CUDA_VISIBLE_DEVICES=0 python Demo.py --model=/home/lh/CSCV/checkpoints/Demo.pth --mixed_precision --start=0
-```
+
 ## Demo for ScaleFlow++
 First, download the weights (Demo_Scaleflowpp.pth) from https://drive.google.com/drive/folders/129lbJWkcMwxispcRVXOvUGF12GuHbhX3?usp=drive_link and place it in the checkpoints path.
 
@@ -49,14 +39,26 @@ You need to specify the image path and output path in the Demo.py file (line 92,
 CUDA_VISIBLE_DEVICES=0 python Demo_ScaleFlowpp.py --model=/home/lh/CSCV/checkpoints/Demo_Scaleflowpp.pth --mixed_precision --start=0
 ```
 
+## Demo for scaleflow
+First, download the weights (Demo.pth) from https://drive.google.com/drive/folders/129lbJWkcMwxispcRVXOvUGF12GuHbhX3?usp=drive_link and place it in the checkpoints path.
+
+You need to specify the image path and output path in the Demo.py file (line 92,93,94)
+```Shell
+        path1 = '/home/lh/CSCV/00026.jpg'
+        path2 = '/home/lh/CSCV/00027.jpg'
+        outpath = '/home/lh/CSCV/output'
+```
+```Shell
+CUDA_VISIBLE_DEVICES=0 python Demo.py --model=/home/lh/CSCV/checkpoints/Demo.pth --mixed_precision --start=0
+```
+
+
 
 soapbox:
 
 https://github.com/HanLingsgjk/CSCV/assets/102562963/14c603dd-6690-41e5-9259-025240395da8
 
-parkour:
 
-https://github.com/HanLingsgjk/CSCV/assets/102562963/b722d727-d185-49e3-92bf-c27b02182ff5
 
 motorbike:
 
@@ -68,9 +70,7 @@ motocross-jump:
 https://github.com/HanLingsgjk/CSCV/assets/102562963/6d2f4db7-e6a6-4528-8133-2b4f64420e8e
 
 
-lady-running:
 
-https://github.com/HanLingsgjk/CSCV/assets/102562963/276dbfe7-1ad7-400c-9507-80da94130689
 
 car-shadow:
 
@@ -81,8 +81,8 @@ breakdance-flare:
 
 https://github.com/HanLingsgjk/CSCV/assets/102562963/44f7bd1f-6286-4f2b-b117-21272fbad255
 
-
 Dog:
+
 
 https://github.com/HanLingsgjk/CSCV/assets/102562963/5f206891-1436-43e5-b5e1-754604eeee70
 
