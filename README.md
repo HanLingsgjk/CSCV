@@ -12,11 +12,11 @@ At present, this article is still under review, and there is a preliminary versi
 PS: Can be found by name on Google Scholar, if ACM is not convenient to read
 
 ## Requirements
-The code has been tested with PyTorch 1.11.0 and Cuda 11.3.
+The code has been tested with PyTorch 2.0.1 and Cuda 11.8.
 ```Shell
 conda create -n cscv python=3.9
 conda activate cscv
-pip install torch==1.11.0+cu113 torchvision==0.12.0+cu113 torchaudio==0.11.0 --extra-index-url https://download.pytorch.org/whl/cu113
+pip install torch==2.0.1 torchvision==0.15.2 torchaudio==2.0.2 --index-url https://download.pytorch.org/whl/cu118
 ```
 
 Also need to install via pip
