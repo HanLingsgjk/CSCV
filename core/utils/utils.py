@@ -71,7 +71,7 @@ def bilinear_sampler(img, coords, mode='bilinear', mask=False):
 
     return img
 
-def bilinear_samplere(img, coords, mode='bilinear', mask=False):
+def bilinear_samplere(img, coords, mode='bilinear', mask=False,pmode = 'zeros'):
     """ Wrapper for grid_sample, uses pixel coordinates """
     H, W = img.shape[-2:]
     ygrid, xgrid = coords.split([1,1], dim=-1)
@@ -79,7 +79,7 @@ def bilinear_samplere(img, coords, mode='bilinear', mask=False):
     ygrid = 2*ygrid/(H-1) - 1
 
     grid = torch.cat([xgrid, ygrid], dim=-1)
-    img = F.grid_sample(img, grid, align_corners=True,mode=mode)
+    img = F.grid_sample(img, grid, align_corners=True,mode=mode,padding_mode=pmode)
 
     if mask:
         mask = (xgrid > -1) & (ygrid > -1) & (xgrid < 1) & (ygrid < 1)

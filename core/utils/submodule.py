@@ -450,3 +450,102 @@ class bfmodule(nn.Module):
         pred2 = self.iconv2(concat2)  # 4x
 
         return pred2, pred3, pred4, pred5, pred6
+from core.layer import ConvNeXtV2tiny
+class Tiny_Unetlikev7(nn.Module):
+    def __init__(self, inplanes, outplanes,mid_channle = 128):
+        super(Tiny_Unetlikev7, self).__init__()
+        #self.proj = conv2DBatchNormRelu(in_channels=inplanes, k_size=1, n_filters=mid_channle, padding=0, stride=1)
+        self.proj = ConvNeXtV2tiny(inplanes, mid_channle,bl=2)
+        self.inplanes = mid_channle
+        # Vanilla Residual Blocks
+        self.res_block3 = ConvNeXtV2tiny(self.inplanes,self.inplanes,kszie=7,down=True)
+        self.res_block5 = ConvNeXtV2tiny(self.inplanes,self.inplanes,kszie=5,down=True)
+        self.pyramid_pooling = pyramidPooling(self.inplanes, levels=3)
+        # Iconvs
+        self.upconv6 = conv2DBatchNormRelu(in_channels=self.inplanes, k_size=3, n_filters=self.inplanes,
+                                           padding=1, stride=1)
+        self.upconv5 = conv2DBatchNormRelu(in_channels=self.inplanes, k_size=3, n_filters=64,
+                                           padding=1, stride=1)
+
+
+        self.iconv5 = conv2DBatchNormRelu(in_channels=self.inplanes*2, k_size=3, n_filters=self.inplanes,
+                                          padding=1, stride=1)
+        self.iconv4 = conv2DBatchNormRelu(in_channels=self.inplanes+64, k_size=3, n_filters=self.inplanes,
+                                          padding=1, stride=1)
+
+
+        self.proj6 = ConvNeXtV2tiny(self.inplanes, outplanes)
+        for m in self.modules():
+            if isinstance(m, nn.Conv2d):
+                n = m.kernel_size[0] * m.kernel_size[1] * m.out_channels
+                m.weight.data.normal_(0, math.sqrt(2. / n))
+                if hasattr(m.bias, 'data'):
+                    m.bias.data.zero_()
+
+    def forward(self, x):
+        proj = self.proj(x)  # 4x  1
+        rconv3 = self.res_block3(proj)  # 8x  1/2
+        conv6 = self.res_block5(rconv3)  # 16x  1/4
+        conv6 = self.pyramid_pooling(conv6)  # 64x
+
+
+        conv6u = F.upsample(conv6, [rconv3.size()[2], rconv3.size()[3]], mode='bilinear')
+        concat5 = torch.cat((rconv3, self.upconv6(conv6u)), dim=1)
+        conv5 = self.iconv5(concat5)  # 32x
+
+        conv5u = F.upsample(conv5, [proj.size()[2], proj.size()[3]], mode='bilinear')
+        concat4 = torch.cat((proj, self.upconv5(conv5u)), dim=1)
+        conv4 = self.iconv4(concat4)  # 16x
+        pred6 = self.proj6(conv4)
+
+
+        return pred6
+class Tiny_Unetlikev2(nn.Module):
+    def __init__(self, inplanes, outplanes,mid_channle = 128):
+        super(Tiny_Unetlikev2, self).__init__()
+        self.proj = conv2DBatchNormRelu(in_channels=inplanes, k_size=1, n_filters=mid_channle, padding=0, stride=1)
+        #self.proj = ConvNeXtV2tiny(inplanes, mid_channle)
+        self.inplanes = mid_channle
+        # Vanilla Residual Blocks
+        self.res_block3 = ConvNeXtV2tiny(self.inplanes,self.inplanes,down=True)
+        self.res_block5 = ConvNeXtV2tiny(self.inplanes,self.inplanes,down=True)
+        self.pyramid_pooling = pyramidPooling(self.inplanes, levels=3)
+        # Iconvs
+        self.upconv6 = conv2DBatchNormRelu(in_channels=self.inplanes, k_size=3, n_filters=self.inplanes,
+                                           padding=1, stride=1)
+        self.upconv5 = conv2DBatchNormRelu(in_channels=self.inplanes, k_size=3, n_filters=64,
+                                           padding=1, stride=1)
+
+
+        self.iconv5 = conv2DBatchNormRelu(in_channels=self.inplanes*2, k_size=3, n_filters=self.inplanes,
+                                          padding=1, stride=1)
+        self.iconv4 = conv2DBatchNormRelu(in_channels=self.inplanes+64, k_size=3, n_filters=self.inplanes,
+                                          padding=1, stride=1)
+
+
+        self.proj6 = ConvNeXtV2tiny(self.inplanes, outplanes)
+        for m in self.modules():
+            if isinstance(m, nn.Conv2d):
+                n = m.kernel_size[0] * m.kernel_size[1] * m.out_channels
+                m.weight.data.normal_(0, math.sqrt(2. / n))
+                if hasattr(m.bias, 'data'):
+                    m.bias.data.zero_()
+
+    def forward(self, x):
+        proj = self.proj(x)  # 4x  1
+        rconv3 = self.res_block3(proj)  # 8x  1/2
+        conv6 = self.res_block5(rconv3)  # 16x  1/4
+        conv6 = self.pyramid_pooling(conv6)  # 64x
+
+
+        conv6u = F.upsample(conv6, [rconv3.size()[2], rconv3.size()[3]], mode='bilinear')
+        concat5 = torch.cat((rconv3, self.upconv6(conv6u)), dim=1)
+        conv5 = self.iconv5(concat5)  # 32x
+
+        conv5u = F.upsample(conv5, [proj.size()[2], proj.size()[3]], mode='bilinear')
+        concat4 = torch.cat((proj, self.upconv5(conv5u)), dim=1)
+        conv4 = self.iconv4(concat4)  # 16x
+        pred6 = self.proj6(conv4)
+
+
+        return pred6
