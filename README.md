@@ -110,16 +110,29 @@ You can create symbolic links to wherever the datasets were downloaded in the `d
         ├── optical_flow
 ```
 ## Pretrained weights for KITTI
-Download and place in the checkpoints directory
+Download and place in the checkpoints directory  ../CSCV/checkpotins/
 * https://drive.google.com/drive/folders/129lbJWkcMwxispcRVXOvUGF12GuHbhX3?usp=drive_link
-
-## Train on KITTI
+* 
+## Train ScaleFlow++ on KITTI
 ```Shell
-CUDA_VISIBLE_DEVICES=0 python train.py --name raft-cscv --stage kitti --validation kitti --restore_ckpt ../CSCV/checkpotins/cscv_kittitest_6.12.pth --gpus 0 --num_steps 60000 --batch_size 2 --lr 0.000125 --image_size 320 960 --wdecay 0.0001 --gamma=0.85
+CUDA_VISIBLE_DEVICES=0,1 python train_scaleflowpp.py --name ScaleFlowpp --stage kitti --validation kitti --gpus 0 1 --num_steps 60000 --batch_size 6 --lr 0.000125 --image_size 320 896 --wdecay 0.0001 --gamma=0.85
+```
+## Test ScaleFlow++ on KITTI
+Reproduce the results of Table 3 in the paper https://arxiv.org/abs/2409.12202
+```Shell
+CUDA_VISIBLE_DEVICES=0 python dc_flow_eval.py --model=../CSCV/checkpotins/ResScale_KITTI160FT.pth --modelused='scaleflowpp'
+```
+If you want to submit test results to KITTI and Reproduce the results of Table 4 in the paper https://arxiv.org/abs/2409.12202
+
+```Shell
+CUDA_VISIBLE_DEVICES=0 python dc_flow_eval.py --model=../CSCV/checkpotins/ResScale_kittift200.pth --modelused='scaleflowpp' --ifsubmit=True
 ```
 
-## Test on KITTI
-Reproduce the results of Table 1 in the paper
+## Train Scaleflow on KITTI
 ```Shell
-CUDA_VISIBLE_DEVICES=0 python dc_flow_eval.py --model=../CSCV/checkpotins/cscv_kitti_42.08.pth --mixed_precision --start=0
+CUDA_VISIBLE_DEVICES=0 python train.py --name raft-cscv --stage kitti --validation kitti --gpus 0 --num_steps 60000 --batch_size 2 --lr 0.000125 --image_size 320 960 --wdecay 0.0001 --gamma=0.85
+```
+## Test Scaleflow on KITTI
+```Shell
+CUDA_VISIBLE_DEVICES=0 python dc_flow_eval.py --model=../CSCV/checkpotins/cscv_kitti_42.08.pth --modelused='scaleflow'
 ```
