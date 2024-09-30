@@ -124,6 +124,14 @@ CUDA_VISIBLE_DEVICES=0 python dc_flow_eval.py --model=../CSCV/checkpotins/ResSca
 ```
 If you want to submit test results to KITTI and Reproduce the results of Table 4 in the paper https://arxiv.org/abs/2409.12202
 
+Of course, you need to indicate the location of the corresponding folder in the code
+in dc_flow_eval.py line 543: test_dataset = datasets.KITTI(split='test', aug_params=None,root='/home/lh/all_datasets/kitti/testing')
+in line 560,563,564
+output_filename = os.path.join('/home/lh/CSCV_occ/submit_pre909/flow/', frame_id)
+cv2.imwrite('%s/%s' % ('/home/lh/CSCV_occ/submit_pre909/disp_0', frame_id), disp1)
+cv2.imwrite('%s/%s' % ('/home/lh/CSCV_occ/submit_pre909/disp_1', frame_id), disp2)
+
+
 ```Shell
 CUDA_VISIBLE_DEVICES=0 python dc_flow_eval.py --model=../CSCV/checkpotins/ResScale_kittift200.pth --modelused='scaleflowpp' --ifsubmit=True
 ```
