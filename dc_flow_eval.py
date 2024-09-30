@@ -539,30 +539,32 @@ def create_ucf101_submission(model, iters=12, output_path='bq_submit',start = 20
 def kitti_sceneflow_submission(model, iters=12, output_path=''):
     """ Create submission for the Sintel leaderboard """
     model.eval()
-    #/home/xuxian/RAFT3D/datasets/testing/
-    #/home/lh/RAFT_master/dataset/kitti_scene/testing
-    test_dataset = datasets.KITTI(split='test', aug_params=None,root='/new_data/kitti_data/datasets/testing')
+
+    test_dataset = datasets.KITTI(split='test', aug_params=None,root='/home/lh/all_datasets/kitti/testing')
 
     for test_id in range(0,len(test_dataset),1):
+
         image1, image2, (frame_id,),disp = test_dataset[test_id]
-        padder = InputPadder(image1.shape, mode='kitti')
+        padder = InputPadder(image1.shape, mode='kitti',sp = 16)
         image1, image2 = padder.pad(image1[None].cuda(), image2[None].cuda())
         _, flow_pr,dc = model(image1, image2, iters=iters, test_mode=True)
+
+
         flow = padder.unpad(flow_pr[0]).permute(1, 2, 0).detach().cpu().numpy()
         dc = padder.unpad(dc[0]).permute(1, 2, 0).detach().cpu().numpy()
         disp2 = disp/dc[:,:,0]
-        '''
-        plt.imshow(flow[:,:,0])
-        plt.show()
-        plt.clf()
-        '''
+
+
         disp1 =  (disp * 256).astype('uint16')
         disp2 =  (disp2 * 256).astype('uint16')
-        output_filename = os.path.join('/home/xuxian/RAFT3D/submit/flow/', frame_id)
+        output_filename = os.path.join('/home/lh/CSCV_occ/submit_pre909/flow/', frame_id)
         frame_utils.writeFlowKITTI(output_filename, flow)
 
-        cv2.imwrite('%s/%s' % ('/home/xuxian/RAFT3D/submit/disp_0', frame_id), disp1)
-        cv2.imwrite('%s/%s' % ('/home/xuxian/RAFT3D/submit/disp_1', frame_id), disp2)
+        cv2.imwrite('%s/%s' % ('/home/lh/CSCV_occ/submit_pre909/disp_0', frame_id), disp1)
+        cv2.imwrite('%s/%s' % ('/home/lh/CSCV_occ/submit_pre909/disp_1', frame_id), disp2)
+
+
+
         print(test_id)
 # 这里顺便搞一个测评函数,用于160-40测评
 #这里写一个数据集生成函数
@@ -1193,6 +1195,8 @@ if __name__ == '__main__':
                         help='where to start')
     parser.add_argument('--modelused', default='scaleflowpp',
                         help='where to start')
+    parser.add_argument('--ifsubmit', default=False,
+                        help='where to start')
     args = parser.parse_args()
     if args.modelused == 'scaleflowpp':
         model = torch.nn.DataParallel(ResScale_AB(args))
@@ -1207,27 +1211,14 @@ if __name__ == '__main__':
 
     model.cuda()
     model.eval()
-    #validate_kitti_test(model.module)
-    #validate_kitti_BTTC_test()
-    #validate_kitti_exTTC_test()
-    #validate_kitti_osTTC_test()
-    #validate_kitti_TTC_test(model.module)
-    with torch.no_grad():
-        #test_optical_flow(model)
-        #test_sceneflow(model)
-        #create_sintel_submission(model.module)
-        #validate_kitti_and_plot(model.module)
-        #validate_kitti_TTC_test(model.module)
-        if args.modelused == 'scaleflowpp':
-            validate_kitti(model,iters=6)
-        else:
-            validate_kitti(model,iters=12)
-        #kitti_testdata_get()
-        #test_scale_change_affect(model.module)
-        #kitti_sceneflow_submission(model.module)
-        #create_sintel_submission(model.module, warm_start=True)
-        #create_ans_show(model.module)
-        #create_ucf101_submission(model.module)
 
-         #if args.dataset == 'kitti':
-           # validate_kitti(model.module)
+    with torch.no_grad():
+
+        if args.ifsubmit == False:
+            if args.modelused == 'scaleflowpp':
+                validate_kitti(model,iters=6)
+            else:
+                validate_kitti(model,iters=12)
+        else:
+            kitti_sceneflow_submission(model.module)
+
