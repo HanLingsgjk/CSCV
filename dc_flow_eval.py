@@ -7,7 +7,7 @@ import os.path as osp
 from PIL import Image
 import argparse
 import os
-os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+#os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 import time
 import numpy as np
 import torch
@@ -21,11 +21,15 @@ from core.utils import flow_viz
 from torch.utils.data import DataLoader
 from core.raft_cscv import  RAFT343used
 from core.utils.utils import InputPadder, forward_interpolate
+from core.scale_flowpp import ResScale_AB
 #os.environ["CUDA_VISIBLE_DEVICES"] = "2"
 #Validation KITTI: 0.935277, 3.001616,log_dc: 40.498310 5000
 #Validation KITTI: 0.941944, 3.044805,log_dc: 39.139363 10000
 #Validation KITTI: 0.942333, 3.050481,log_dc: 40.371832 11
 # scale input depth maps (scaling is undone before evaluation)
+
+#ResScale_KITTI160FT.pth
+#ResScale_kittift200.pth
 DEPTH_SCALE = 1
 
 # exclude pixels with depth > 250
@@ -686,7 +690,7 @@ def validate_kitti(model, iters=12):
     for val_id in range(0,len(val_dataset),5):
         image1, image2, flow_gt,dc_change,d1,d2,disp1,disp2,mask,valid_gt,_ = val_dataset[val_id]
 
-        padder = InputPadder(image1.shape, mode='kitti')
+        padder = InputPadder(image1.shape, mode='kitti',sp=16)
         image1, image2 = padder.pad(image1, image2)
         image1 = image1.unsqueeze(0).cuda()
         image2 = image2.unsqueeze(0).cuda()
@@ -1187,10 +1191,13 @@ if __name__ == '__main__':
                         help='use position and content-wise attention')
     parser.add_argument('--start', default=0, type=int,
                         help='where to start')
+    parser.add_argument('--modelused', default='scaleflowpp',
+                        help='where to start')
     args = parser.parse_args()
-
-    model = torch.nn.DataParallel(RAFT343used(args))
-
+    if args.modelused == 'scaleflowpp':
+        model = torch.nn.DataParallel(ResScale_AB(args))
+    else:
+        model = torch.nn.DataParallel(RAFT343used(args))
     pretrained_dict = torch.load(args.model)
     old_list = {}
     for k, v in pretrained_dict.items():
@@ -1211,7 +1218,10 @@ if __name__ == '__main__':
         #create_sintel_submission(model.module)
         #validate_kitti_and_plot(model.module)
         #validate_kitti_TTC_test(model.module)
-        validate_kitti(model)
+        if args.modelused == 'scaleflowpp':
+            validate_kitti(model,iters=6)
+        else:
+            validate_kitti(model,iters=12)
         #kitti_testdata_get()
         #test_scale_change_affect(model.module)
         #kitti_sceneflow_submission(model.module)
