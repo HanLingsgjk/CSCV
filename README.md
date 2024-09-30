@@ -117,7 +117,7 @@ Download and place in the checkpoints directory  ../CSCV/checkpotins/
 ```Shell
 CUDA_VISIBLE_DEVICES=0,1 python train_scaleflowpp.py --name ScaleFlowpp --stage kitti --validation kitti --gpus 0 1 --num_steps 60000 --batch_size 6 --lr 0.000125 --image_size 320 896 --wdecay 0.0001 --gamma=0.85
 ```
-## Test ScaleFlow++ on KITTI
+## Test and submit ScaleFlow++ on KITTI
 Reproduce the results of Table 3 in the paper https://arxiv.org/abs/2409.12202
 ```Shell
 CUDA_VISIBLE_DEVICES=0 python dc_flow_eval.py --model=../CSCV/checkpotins/ResScale_KITTI160FT.pth --modelused='scaleflowpp'
@@ -147,7 +147,7 @@ CUDA_VISIBLE_DEVICES=0 python dc_flow_eval.py --model=../CSCV/checkpotins/ResSca
 ```Shell
 CUDA_VISIBLE_DEVICES=0 python train.py --name raft-cscv --stage kitti --validation kitti --gpus 0 --num_steps 60000 --batch_size 2 --lr 0.000125 --image_size 320 960 --wdecay 0.0001 --gamma=0.85
 ```
-## Test Scaleflow on KITTI
+## Test Scaleflow on KITTI (This is slightly different from the original Scaleflow, as it uses a hybrid training method)
 ```Shell
 CUDA_VISIBLE_DEVICES=0 python dc_flow_eval.py --model=../CSCV/checkpotins/cscv_kitti_42.08.pth --modelused='scaleflow'
 ```
