@@ -1,6 +1,6 @@
 
 # ScaleFlow++
-Code for: ScaleFlow++: Robust and Accurate Estimation of 3D Motion from Monocular Camera  https://arxiv.org/abs/2409.12202
+Code for: ScaleFlow++: Robust and Accurate Estimation of 3D Motion from Monocular Camera https://arxiv.org/abs/2407.09797
 
 There is a preliminary version of this work https://dl.acm.org/doi/abs/10.1145/3503161.3547979
 
